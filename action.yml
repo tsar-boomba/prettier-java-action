@@ -1,4 +1,4 @@
-name: prettier-java-action
+name: prettier-java-format-action
 description: 'Format java code with prettier'
 inputs:
   prettier-args:
