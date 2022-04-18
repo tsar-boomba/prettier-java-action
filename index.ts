@@ -45,7 +45,7 @@ const main = async () => {
 		});
 	});
 
-	writeFileSync('./Java.java', unformattedJava);
+	if (DEBUG) writeFileSync('./Java.java', unformattedJava);
 
 	const command = `prettier ${args} "${files}"`;
 	core.debug(command);
