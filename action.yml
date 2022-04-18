@@ -3,8 +3,20 @@ description: 'Format java code with prettier'
 inputs:
   prettier-args:
     description: 'Arguments for Prettier cli.'
-    required: true
-    default: "-w"
+    required: false
+    default: '-w'
+  files:
+    description: 'Pattern to match the files to be formatted.'
+    required: false
+    default: '**/*.java'
+  commit-message:
+    description: 'Message for formatter commit.'
+    required: false
+    default: 'Format Java'
+  commit:
+    description: 'Whether or not you want the action to push to your repo with the formatting.'
+    required: false
+    default: 'true'
 runs:
   using: node16
   main: 'build/index.js'

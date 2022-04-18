@@ -13,6 +13,7 @@
 	"devDependencies": {
 		"@types/node": "^17.0.24",
 		"@types/prettier": "^2.6.0",
+		"@vercel/ncc": "^0.33.4",
 		"nodemon": "^2.0.15",
 		"rimraf": "^3.0.2",
 		"ts-node": "^10.7.0",
@@ -20,8 +21,8 @@
 	},
 	"dependencies": {
 		"@actions/core": "^1.6.0",
+		"@actions/exec": "^1.1.1",
 		"@actions/github": "^5.0.1",
-		"@vercel/ncc": "^0.33.4",
 		"prettier": "^2.6.2",
 		"prettier-plugin-java": "^1.6.1"
 	}
