@@ -1,5 +1,7 @@
 name: prettier-java-format-action
 description: 'Format java code with prettier'
+icon: align-left
+color: orange
 inputs:
   prettier-args:
     description: 'Arguments for Prettier cli.'
