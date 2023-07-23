@@ -13,8 +13,8 @@ const execute = async (
 		silent,
 		ignoreReturnCode: true,
 		listeners: {
-			stdout: (data) => (stdOut += data.toString()),
-			stderr: (data) => (stdErr += data.toString()),
+			stdout: (data: { toString: () => string; }) => (stdOut += data.toString()),
+			stderr: (data: { toString: () => string; }) => (stdErr += data.toString()),
 		},
 	};
 
@@ -38,14 +38,19 @@ const main = async () => {
 	await core.group('Installing Prettier', async () => {
 		const commands: ReturnType<typeof execute>[] = [];
 		commands.push(execute('npm i -g prettier@2.6.2', { silent: true }));
-		commands.push(execute('npm i -g prettier-plugin-java@1.6.1', { silent: true }));
+		commands.push(
+			execute('npm i -g prettier-plugin-java@1.6.1', { silent: true })
+		);
 		await Promise.all(commands).then((results) => {
-			if (results.some((result) => result.err))
+			if (results.some((result) => result.err)) {
 				core.setFailed('Failed to install prettier.');
+			}
 		});
 	});
 
-	if (DEBUG) writeFileSync('./Java.java', unformattedJava);
+	if (DEBUG) {
+		writeFileSync('./Java.java', unformattedJava);
+	}
 
 	const command = `prettier ${args} "${files}"`;
 	core.debug(command);
@@ -68,7 +73,9 @@ const main = async () => {
 				if (err) {
 					await execute(`git commit --all -m "${commitMessage}"`);
 					await push();
-				} else core.info('Nothing to commit!');
+				} else {
+					core.info('Nothing to commit!');
+				}
 			});
 		}
 	});
@@ -77,6 +84,9 @@ const main = async () => {
 try {
 	main();
 } catch (err: unknown) {
-	if (err instanceof Error) core.setFailed(err.message);
-	else core.setFailed('An error occurred.');
+	if (err instanceof Error) {
+		core.setFailed(err.message);
+	} else {
+		core.setFailed('An error occurred.');
+	}
 }

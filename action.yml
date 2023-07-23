@@ -12,6 +12,10 @@ inputs:
     description: 'Pattern to match the files to be formatted.'
     required: false
     default: '**/*.java'
+  git-user:
+    description: 'Git user for commit.'
+    required: false
+    default: 'Prettier Java Formatter'
   commit-message:
     description: 'Message for formatter commit.'
     required: false
