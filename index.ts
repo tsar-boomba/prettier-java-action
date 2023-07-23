@@ -33,13 +33,15 @@ const main = async () => {
 	const commitString = core.getInput('commit') || 'true';
 	const commit = commitString.toLowerCase() !== 'false';
 
+	const githubUsername = core.getInput('github-username') || 'github-actions';
+
 	const commitMessage = core.getInput('commit-message') || 'Format Java';
 
 	await core.group('Installing Prettier', async () => {
 		const commands: ReturnType<typeof execute>[] = [];
-		commands.push(execute('npm i -g prettier@2.6.2', { silent: true }));
+		commands.push(execute('npm i -g prettier@3.0.0', { silent: true }));
 		commands.push(
-			execute('npm i -g prettier-plugin-java@1.6.1', { silent: true })
+			execute('npm i -g prettier-plugin-java@2.2.0', { silent: true })
 		);
 		await Promise.all(commands).then((results) => {
 			if (results.some((result) => result.err)) {
@@ -65,17 +67,17 @@ const main = async () => {
 
 		if (commit) {
 			await core.group('Committing changes', async () => {
-				await execute('git config user.name github-actions', { silent: true });
+				await execute(`git config user.name "${githubUsername}"`, { silent: true });
 				await execute("git config user.email ''", { silent: true });
-				const { err } = await execute('git diff-index --quiet HEAD', {
+				const { err: diffErr } = await execute('git diff-index --quiet HEAD', {
 					silent: true,
 				});
-				if (err) {
+				if (!diffErr) {
+					core.info('Nothing to commit!');
+				  } else {
 					await execute(`git commit --all -m "${commitMessage}"`);
 					await push();
-				} else {
-					core.info('Nothing to commit!');
-				}
+				  }
 			});
 		}
 	});
