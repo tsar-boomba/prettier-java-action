@@ -1,34 +1,79 @@
-# Prettier Java Action
+# Prettier Java Format Action
 
-This action prints formats java code with prettier.
+## Description
+
+The `prettier-java-format-action` is a GitHub Action that automatically formats Java code using Prettier.
 
 ## Inputs
 
-## `prettier-args`
+### `prettier-args`
 
-Arguments for prettier command. Default `"--write"`.
+Arguments for Prettier CLI. (Optional)
 
-# Files
+- Description: Specify additional arguments to be passed to the Prettier CLI.
+- Required: No
+- Default: `-w`
 
-## `files`
+### `files`
 
-Pattern to match the files to be formatted. Default `"**/*.java"`
+Pattern to match the files to be formatted. (Optional)
 
-## Commit Message
+- Description: Specify a file pattern to match the Java files that you want to format.
+- Required: No
+- Default: `**/*.java`
 
-## `commit-message`
+### `commit`
 
-Message for formatter commit. Default `"Format Java"`.
+Whether or not you want the action to push to your repository with the formatting. (Optional)
 
-## Commit
+- Description: Set this to `true` if you want the action to commit the formatted changes to your repository.
+- Required: No
+- Default: `true`
 
-## `commit`
+### `github-username`
 
-Whether or not you want the action to push to your repo with the formatting. Default `true`.
-**Note: You must be using actions/checkout@v2**
+Username for the GitHub Action to commit with. (Optional)
 
-## Example usage
+- Description: Specify the GitHub username that will be used for committing the changes.
+- Required: No
+- Default: `github-actions`
 
-uses: actions/hello-world-javascript-action@v1.1
-with:
-who-to-greet: 'Mona the Octocat'
+### `commit-message`
+
+Message for formatter commit. (Optional)
+
+- Description: Provide a custom commit message that will be used when committing the formatted changes.
+- Required: No
+- Default: `Format Java`
+
+## Usage
+
+```yaml
+name: Format Java Code
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  format-code:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Prettier Java Format
+      uses: tsar-boomba/prettier-java-format-action@main
+      with:
+        prettier-args: '--tab-width 4  --write'  # See: https://prettier.io/docs/en/options.html
+        files: '**/*.java'
+        commit: 'true'
+        github-username: 'github-actions'
+        commit-message: 'Format Java Code'
+```
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
